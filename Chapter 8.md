@@ -59,15 +59,15 @@ connected destination (G = 0).*
 **Reverse Address Resolution Protocol (RARP)**: RARP only knows the *MAC* address  
 
 **Packets Fragmentation** The flags field has three bits: one unused bit, one “don’t fragment” (DF) bit, and one “more fragment” (MF) bit. If the DF bit is set to 1, it forces the router not to fragment the packet. The MF bit tells the destination host whether or not more fragments follow. If there are more, the MF bit is set to 1; otherwise, it is set to 0. The fragment offset field identifies the location of a fragment in a packet.  
-![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/packets fragmention 2.JPG  "fragmention 2")   
-![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/packets fragmention.JPG  "fragmention")   
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/packets%20fragmention%202.JPG)  "fragmention 2")   
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/packets%20fragmention.JPG  "fragmention")   
 
-**Internet Control Message Protocol (ICMP)**(with protocol number 1)
-PPT slide 16:
+**Internet Control Message Protocol (ICMP)**(with protocol number 1)  
+PPT slide 16:  
 ![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/ICMP.JPG  "ICMP")  
-Echo request and echo reply messages:
+Echo request and echo reply messages:  
 ++Type 8 is used for echo request while type 0 for echo reply.++ The code field is set to zero for both types. The sequence number field is used to match the echo reply message with the corresponding echo request message. The identifier field can be used to differentiate different sessions using the echo services. The data from the echo request message is simply copied in the echo reply message and can be used for diagnostic
-purposes. The data field is of variable length.  
+purposes. The data field is of variable length.    
 ![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/echo.JPG  "echo")    
 
 Routing Information Protocol (RIP) ?
