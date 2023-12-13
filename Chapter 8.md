@@ -5,6 +5,7 @@
 # TCP/IP
 Transmission Layer：  
 Top of IP : **Transmission Control Protocol (TCP)** and **User Datagram Protocol (UDP)**  
+Examples of the protocols include TCP (protocol = 6), UDP (protocol = 17), and ICMP (protocol = 1).
 ## The TCP/IP Architecture
 The TCP/IP protocol suite usually refers not only to the two most well-known protocols
 called the Transmission Control Protocol (TCP) and the Internet Protocol (IP) but also
@@ -73,7 +74,45 @@ Echo request and echo reply messages:
 purposes. The data field is of variable length.    
 ![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/echo.JPG  "echo")    
 
+## User Datagram Protocol (UDP): unreliable & connectionless
+**UDP vs IP**: UDP is a very simple protocol that provides only two additional services beyond IP: demultiplexing and error checking on data.     
+--IP knows how to deliver packets to a host, but does not know how to deliver them to the specific application in the host. 
+--UDP adds a mechanism that distinguishes among multiple applications in the host.   
+--IP checks only the integrity of *its header*. 
+--UDP can optionally check the integrity of *the entire UDP datagram*.    
+
+Applications that use UDP include Trivial File Transfer Protocol, DNS, SNMP, and Real-Time Protocol (RTP).  
+**UDP datagram**  
+The source port identifies the particular application to receive replies.  
+The UDP checksum field detects errors in the datagram, and its use is optional. The source host  gives all 0s to checksum if don't want to ask the destination host to compute.  
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/UDP.JPG  "UDP datagram")    
+**UDP Pseudoheader**  
+The pseudoheader is also **created by the source and destination hosts** only during the checksum computation and is **not transmitted**
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/UDPheader.JPG  "UDP Pseudoheader")  
+
+## Transmission Control Protocol (TCP): 
+reliable & connection-oriented & in-sequence(flow control) & *relieable* byte-stream service(e.g. Selective Repeated ARQ)  
+### TCP Operation and Reliable Stream Service
+
+### TCP Connection
+
+### TCP reliable byte-stream transfer
+
+### TCP Congestion Mechanism
+
+### TCP Flow Control
+1. A传输数据给B， B对A进行流量控制，限制A的传输数量，比如500。  
+2. seq=数据位置(A的TCP报文段中)；data是数据；A每次传输100的数据给B。  
+3. 如果中途有数据丢失， B给发送一个确认数据，通过ACK=1表明是确认数据段，ack=201表示前面200个数据已发送，rwnd=300表示B把传输窗口设置为了300。
+4. A收到B发送的确认数据段，继续传递301-400。直到A把B设置的新传输窗口中的所有数据传输完毕，等到计时器超时。
+5. A的计时器超时，A重传传送失败的201-300数据。
+6. B给A发送确认数据段，重新设置传递数据数量。假设rwnd=0，则A启动持续计时器，并给B发送零窗口探测报文(携带1字节数据)。
+7. 如果B的窗口有空余，则给A发送确认数据，设置rwnd为空余的数值空间；如果没有空余，则给A发送确认数据，依旧设置rwnd=0
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_flow_control1.JPG  "1")  
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_flow_control2.JPG  "2")  
+
+
 Routing Information Protocol (RIP) ?
 Dynamic Host Configuration Protocol (DHCP) provides a mechanism for the temporary allocation of IP addresses to hosts
 
-## TCP congestion control mechanism
+
