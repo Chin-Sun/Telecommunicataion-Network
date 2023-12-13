@@ -41,7 +41,7 @@ In a Class A address (0.0.0.0 - **127**.255.255.255)(*addresses are identified b
 
 **An ID that contains all 1s or all 0s has a special purpose：**    
 -host ID--all 0: broadcast the packet to all hosts on the network(**x.x**.x.x)   
--Internet ID--all 1: the packet is broadcast ++on the local network(x.**x**.x.x)++   
+-Internet ID--all 1: the packet is broadcast on the local network(x.**x**.x.x)     
 -host ID--all 1: a host not to know its IP address immediately afterbeing booted up.  
  
 **Subnet Addressing:** Class B:  NetworkID(8).NetworkID(8).SubnetID(9bits).HostID(7bits) 
@@ -66,7 +66,7 @@ connected destination (G = 0).*
 PPT slide 16:  
 ![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/ICMP.JPG  "ICMP")  
 Echo request and echo reply messages:  
-++Type 8 is used for echo request while type 0 for echo reply.++ The code field is set to zero for both types. The sequence number field is used to match the echo reply message with the corresponding echo request message. The identifier field can be used to differentiate different sessions using the echo services. The data from the echo request message is simply copied in the echo reply message and can be used for diagnostic
+```Type 8 is used for echo request while type 0 for echo reply.``` The code field is set to zero for both types. The sequence number field is used to match the echo reply message with the corresponding echo request message. The identifier field can be used to differentiate different sessions using the echo services. The data from the echo request message is simply copied in the echo reply message and can be used for diagnostic
 purposes. The data field is of variable length.    
 ![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/echo.JPG  "echo")    
 
