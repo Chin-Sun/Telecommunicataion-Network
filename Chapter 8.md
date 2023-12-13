@@ -37,7 +37,10 @@ In the below Figure, the IP packet is encapsulated into an Ethernet frame.  The 
 *A node (such as a router or a multihomed host) may have multiple network interfaces. In this situation an IP address is
 usually associated with the network interface or the network connection rather than with the node. Then the node has a unique **host ID**(192.1.0.**6**), just like computers connected with this network interface(190.1.0)*       
 **Class A, B, C, D, E:**   
-In a Class A address (0.0.0.0 - **127**.255.255.255)(*addresses are identified by the first bit set to 0*), the first octet represents the network portion, and the remaining three octets are for host addresses. In a Class B address (**128**.0.0.0 - 191.255.255.255)(*addresses are identified by the first two bits set to 10*), the first two octets represent the network portion, and the remaining two octets are for host addresses. In a Class C address (**192**.0.0.0 - 223.255.255.255)(*addresses are identified by the first three bits set to 110*), the first three octets represent the network portion, and the last octet is for host addresses. Class D addresses are identified by the first four bits set to 1110, and the rest all bits are for multicast groups.  Class E addresses are identified by the first four bits set to 1111.   
+In a Class A address (0.0.0.0 - **127**.255.255.255)(*addresses are identified by the first bit set to 0*), the first octet represents the network portion, and the remaining three octets are for host addresses.   
+In a Class B address (**128**.0.0.0 - 191.255.255.255)(*addresses are identified by the first two bits set to 10*), the first two octets represent the network portion, and the remaining two octets are for host addresses.   
+In a Class C address (**192**.0.0.0 - 223.255.255.255)(*addresses are identified by the first three bits set to 110*), the first three octets represent the network portion, and the last octet is for host addresses.   
+Class D addresses are identified by the first four bits set to 1110, and the rest all bits are for multicast groups.  Class E addresses are identified by the first four bits set to 1111.   
 
 **An ID that contains all 1s or all 0s has a special purpose：**    
 -host ID--all 0: broadcast the packet to all hosts on the network(**x.x**.x.x)   
