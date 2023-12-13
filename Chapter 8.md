@@ -93,17 +93,34 @@ The pseudoheader is also **created by the source and destination hosts** only du
 ## Transmission Control Protocol (TCP): 
 reliable & connection-oriented & in-sequence(flow control) & *relieable* byte-stream service(e.g. Selective Repeated ARQ)  
 ### TCP Operation and Reliable Stream Service
+--TCP connection establishment phase：transmission control block (TCB)=a connection record     
+--data transfer phase： use Selective Repeat ARQ to implement reliablity  
+--connection termination phase: terminate independently  
+**Segment**  
+--Source port and destination port: The source and destination ports identify the sending and receiving applications.  
+
 
 ### TCP Connection
+**TCP连接建立**：三报文握手：  
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_connection_built  "Connection") 
 
+**TCP连接断开**：四报文挥手：
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_断开连接  "Connection") 
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_断开连接2  "Connection") 
 ### TCP reliable byte-stream transfer
+TCP可靠传输1-2-3
 
 ### TCP Congestion Mechanism
+1. slow start慢开始算法：设置cwnd=1, ssthresh是拥堵窗口的门限值。一开始，发送方传输数据从1个数据段，即数据段0，开始。收到接收方对数据段0的确认后，将cwnd以指数的形式增加，cwnd=1+1=2，并传输2数据段。依次重复，直到cwnd=ssthresh为止。
+2. cwnd=ssthresh 拥塞避免congestion avoidance：发送方收到接收方对data segments的确认后，每次都线性加1，cwnd=9+1=10.直到发生拥塞。拥塞的检验方法是，A发送方发送的数据包18丢失。B接收方收到A发送的数据包19，对A发送对数据包17的确认，告知A，数据包18丢失。在连续三次执行这个操作后，A重传数据包18，B对A发送对数据包21的确认。
+3. fast retransmit 快重传：拥塞发生后，cwnd被设置为1, 新的ssthresh=原来的ssthresh/2，cwnd继续按照指数的形式增长。直到cwnd=ssthresh，cwnd线性加1.直到拥塞避免，执行快重传和快恢复
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/congestion_4.JPG  "congestion avoidance")  
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/congestion_5.JPG  "fast retransmit") 
 
 ### TCP Flow Control
 1. A传输数据给B， B对A进行流量控制，限制A的传输数量，比如500。  
 2. seq=数据位置(A的TCP报文段中)；data是数据；A每次传输100的数据给B。  
-3. 如果中途有数据丢失， B给发送一个确认数据，通过ACK=1表明是确认数据段，ack=201表示前面200个数据已发送，rwnd=300表示B把传输窗口设置为了300。
+3. 如果中途有数据丢失， B给发送一个确认数据，通过ACK=1表明是确认数据段，ack=201表示前面200个数据已发送(待发送的数据段起始位置为201)，rwnd=300表示B把传输窗口设置为了300。
 4. A收到B发送的确认数据段，继续传递301-400。直到A把B设置的新传输窗口中的所有数据传输完毕，等到计时器超时。
 5. A的计时器超时，A重传传送失败的201-300数据。
 6. B给A发送确认数据段，重新设置传递数据数量。假设rwnd=0，则A启动持续计时器，并给B发送零窗口探测报文(携带1字节数据)。
@@ -111,6 +128,7 @@ reliable & connection-oriented & in-sequence(flow control) & *relieable* byte-st
 ![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_flow_control1.JPG  "1")  
 ![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_flow_control2.JPG  "2")  
 
+### TCP超时重传时间设置
 
 Routing Information Protocol (RIP) ?
 Dynamic Host Configuration Protocol (DHCP) provides a mechanism for the temporary allocation of IP addresses to hosts
