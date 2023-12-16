@@ -1,1 +1,1 @@
-# Chapter 6 Medium Access Control Protocol
+# Medium Access Control Protocol
