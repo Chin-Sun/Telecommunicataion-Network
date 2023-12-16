@@ -91,16 +91,132 @@ The pseudoheader is also **created by the source and destination hosts** only du
 ![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/UDPheader.JPG  "UDP Pseudoheader")  
 
 ## Transmission Control Protocol (TCP): 
-reliable & connection-oriented & in-sequence(flow control) & *relieable* byte-stream service(e.g. Selective Repeated ARQ)  
-### TCP Operation and Reliable Stream Service
---TCP connection establishment phase：transmission control block (TCB)=a connection record     
---data transfer phase： use Selective Repeat ARQ to implement reliablity  
---connection termination phase: terminate independently  
-**Segment**  
---Source port and destination port: The source and destination ports identify the sending and receiving applications.  
+**reliable & connection-oriented & in-sequence(flow control) & *relieable* byte-stream service(e.g. Selective Repeated ARQ)**  
 
+- As indicated in Chapter 2, a TCP connection is uniquely identified by four parameters: the sender IP address and port number, and the destination IP address and port number. An end system can therefore support multiple simultaneous TCP connections. Typically the server is assigned a well-known port number and the client is assigned an ephemeral port number.
+-  The segment contains a header with address information that enables the network to direct the segment to its destination application process. The segment contains a sequence number that corresponds to the number of the first byte in the string that is being transmitted. The segment also contains an Internet checksum. The TCP receiver performs an error check on each segment it receives.
+-  The receiver will accept out-of-order but error-free segments, so the receive buffer can have gaps where bytes have not been received. The receiver keeps track of the oldest byte it has not yet received. It sends the sequence number of this byte in the acknowledgments it sends back to the transmitter. The receive window slides forward whenever the desired next oldest byte is received.
+### TCP Operation and Reliable Stream Service
+-- TCP connection establishment phase： transmission control block(TCB)=a connection record       
+-- data transfer phase： use Selective Repeat ARQ to implement reliablity    
+-- connection termination phase: terminate independently    
+#### Segment
+--Source port and destination port: The source and destination ports identify the sending and receiving applications.  
+#### TCP CHECKSUM
 
 ### TCP Connection
+#### Tcp Connection Establishment
+1. **Host A** sends a **connection request** to host B by **setting the SYN bit**. Host A also registers its **initial sequence number** to use **(Seq_no = x)**.  
+2. **Host B** *acknowledges the request* by **setting the ACK bit** and indicating ***the next data byte** to receive* **(Ack_no = x + 1)**. The “*plus one*” is needed because *the SYN bit consumes one sequence number*. At the same time, host B also *sends a request* by **setting the SYN bit** and registering its **initial sequence number** to use **(Seq_no = y)**.  
+3. **Host A** *acknowledges the request* from B by **setting the ACK bit** and **confirming the next data byte** to receive **(Ack no = y + 1)**. Note that **the sequence number** is set to **x + 1**. On receipt at B the connection is established.  
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/connection_three_handshake.JPG  "TCP Three Handshakes") 
+**Seq_no=:** A-->B, transfer data from A to the **Seq_no bit** of B.  Seq_no都是别人的第一个空余位
+**Ack_no=:** A-->B: tell B, starting the ACK+no bit of A is ok for the next byte from B; ACK_no都是表示自己的第一个空余位
+
+- If during a connection establishment phase, one of the hosts decides to **refuse a connection request**, it will *send a reset segment* by **setting the RST bit**  
+- each **SYN message** can specify options such as *maximum segment size*, *window scaling*, and *timestamps*.  
+- the **initial sequence number** should be **different** each time **a host requests a connection**. If the initial sequence number is always unique, the delayed segment is very unlikely to possess a legal sequence number and thus can be detected and discarded. Reason : If a host always uses the same initial sequence number, old segments
+cannot be distinguished from the current ones.
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/connection_diffetent.JPG_Seq_no "Delay_result") 
+**Note:**  
+-server host B: passive open--socket, bind, listen, and accept
+-client host A: active open--socket call (t1 ), connect(t2)
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/detailed_connection.JPG "More details about Connection Establishment")
+
+#### Data Transfer: flow control
+ A reliable delivery service to applications--- Selective Repeat ARQ protocol with a sliding-window mechanism (**byte basis** instead of on packet basis)   
+ Advantages:    
+ - prevent the sender from overwhelming the receiver with too much data.
+  
+**Process**
+1. t0: After connection establishment, host B as a server sends byte to A. In this segment, B advertised window size (Win=1024), and expect the next byte received from A to have a sequence number(ACK_no=2000) in host B. Since host B has set the ACK when establishing connection with A, host B only need to register Seq_no=xx. Seq_no is that A expects to receive data from B to have a sequence number in host A.  
+2. t1: A receive the above byte from B. And then A sends byte to B. The byte includes the    
+   - Seq_no=2000(ask B to put the byte to the Sequence number bit in B)    
+   - ACK_no=xx (tell B, next byte from B should be put starting from xx bit in A), Since the previous byte from B doesn't have any data, the ACK_no in A is still xx.  
+   - Win= 512(tell B, the window size is 512. After exceeding this window size of 512, B is not allowed to transfer any data)  
+   - data=1025~2048(This number is limited by A itself.)  
+3. t2: A continues to transfer new data which includes 1024 bytes. And B delay to send the acknowledgement for the previous data from A.  
+4. t3: B sends data to A and register ACK_no=2000+1024*2=4048(it also tell A, B has received the previous data correctly), Seq_no=xx, Win=512(new window size for A), Data=1~128  
+5. t4: A sends data to B and register ACK_no=xx+128; Seq_no=4048, Win=1024(shrink window size to new size of 1024 bytes); Data = 4028~4048+512    
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/flow_control.JPG "flow control")
+
+**Advantages of Delay lay transmission so that the acknowledgments can be piggybacked to the data segment**  
+- reduce the waste of bandwidth
+- **Solution**: Nagle algorithm---TCP transmits all the characters that have been waiting in the buffer in a single segment.
+- **Problem of the above algorithm:** We hope whether TCP buffer characters or not depends on the congestion condition of the network. *When delay is small, implying that the network is lightly loaded, only a few characters are buffered before an acknowledgment arrives. In this case TCP has the luxury of transmitting short segments. However, when delay is high, indicating that the network is congested, many more characters will be buffered. Here, TCP has to transmit longer segments and less frequently. In some cases the Nagle algorithm needs to be disabled to ensure the interactivity of an application even at the cost of transmission efficiency.* 
+- **Problem of the above algorithm--silly window syndrome:**  It can be avoided by having the receiver not advertise the window until the window size is at least as large as half of the receive buffer size, or the maximum segment size. The sender side can cooperate by refraining from transmitting small segments.  
+
+**Maximum Segment Size (MSS)**  
+- TCP provides **16 bits** to specify the MSS option, so the maximum block of data that can be carried in a segment is **65,495 bytes**;  
+- The Max Data size is  65,535 **-** 20 bytes for the IP header **-** 20 bytes for the TCP header. Then the overhead would only be **0.06 percent.**  
+- In TCP **the default MSS** is **536 bytes**. The corresponding **IP packet** is then **576 bytes** long. In this case **40 bytes** out of every **576 bytes**, that is, **7 percent** are overhead.  
+- Ethernet limits the MSS to 1460 bytes
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/head_overhead.JPG "Overhead")
+
+**Sequence Number Wraparound and Timestamps**  
+-*Wraparound:*  32-bit sequence number--->2^32 bytes;  But TCP uses Selective Repeat ARQ, so the maximum allowable window size is 2^31 bytes. Therefore The 32-bit sequence number wraps around  
+-*Timestamps--Round-Trip time:* In a T-1 line(1.544 Mbps) the time required is (2^32 × 8)/(1.544 × 106) = 6 hours. In a T-3 line (45 Mbps), the wraparound will occur in 12 minutes.  
+
+   **1 Mbps = 10^6 bps** (when calculation, you need to switch Mbps to bps because it is based on bits' calculation)  
+   
+- The original TCP specification assumed a maximum segment lifetime (MSL) of 2 minutes. Clearly, sequence number wraparound becomes an issue for TCP operating over very highspeed links.
+- 
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/wrapround.JPG "? wrapround")
+
+**Delay-Bandwidth Product and Advertised Window Size**  
+- round-trip time = 100 ms;  The number of bytes in **T1 line(1.544 Mbps)** is 1.544 × 10^6 × 0.100/8 = 19,300 bytes.  
+                             The number of bytes in **T3 line(45 Mbps)** is 562,500 bytes  
+-  The **normal maximum advertised window size** is only **65535**, which is not enough for the T-3 line.  
+-  The **window scale option**, however, **allows a window size of up to 65,535 × 214 = 1 gigabyte**, which is enough to handle these cases.  
+
+**Chinese version of Process**  
+1. A传输数据给B， B对A进行流量控制，限制A的传输数量，比如500。    
+2. seq=数据位置(A的TCP报文段中)；data是数据；A每次传输100的数据给B。  
+3. 如果中途有数据丢失， B给发送一个确认数据，通过ACK=1表明是确认数据段，ack=201表示前面200个数据已发送(待发送的数据段起始位置为201)，rwnd=300表示B把传输窗口设置为了300。  
+4. A收到B发送的确认数据段，继续传递301-400。直到A把B设置的新传输窗口中的所有数据传输完毕，等到计时器超时。  
+5. A的计时器超时，A重传传送失败的201-300数据。  
+6. B给A发送确认数据段，重新设置传递数据数量。假设rwnd=0，则A启动持续计时器，并给B发送零窗口探测报文(携带1字节数据)。  
+7. 如果B的窗口有空余，则给A发送确认数据，设置rwnd为空余的数值空间；如果没有空余，则给A发送确认数据，依旧设置rwnd=0  
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_flow_control1.JPG  "1")  
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_flow_control2.JPG  "2")  
+
+#### TCP Connection Termination
+(1) Upon receiving a FIN segment, a TCP entity informs its application that the other entity has terminated its transmission of data.  
+(2) Host B sends an **ACK segment** to **acknowledge receipt of the FIN segment from A**. Note that the FIN segment uses one byte, so the ACK is **5087** in the example.  
+(3) The **direction of the flow from B to A is still open**. host B **sends 150 bytes** in one segment, **followed** later by a **FIN segment**. Host A sends an acknowledgment.  
+(4) The TCP in host **A** then enters the TIME_WAIT state and starts the TIME_WAIT timer with an initial value set to twice the maximum segment lifetime (2MSL).  
+
+The **only valid segment** that can arrive while host A is in the TIME_WAIT state is a **retransmission of the FIN segment** from host B (for example, if host A’s ACK was lost, and host B’s retransmission time-out has expired). If such a FIN segment arrives while host A is the TIME_WAIT state, then the ACK segment is retransmitted and the TIME WAIT timer is restarted at 2MSL.???  
+
+(5) When the TIME_WAIT timer expires, host A closes the connection and then deletes the record of the connection.  
+
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_graceful_close.JPG  "TCP Graceful Close")   
+
+**The TIME WAIT state protects future incarnations of the connection from delayed segments.**  
+- The first MSL accounts for the maximum time a segment in one direction can remain in the network  
+- the second MSL allows for the maximum time a reply in the other direction can be in the network.  
+
+TCP provides for an abrupt connection termination through reset (RST) segments.
+- **An RST segment is a segment with the RST bit set.**
+If an application decides to terminate the connection abruptly, it issues an ABORT command, which causes TCP to discard any data that is queued for transmission and to send an RST segment. A TCP module that receives the RST segment then notifies its application process that the connection has been terminated.  
+
+example:  
+
+- an RST segment is sent when a connection request arrives for an application process that is not listening on the given port.
+- an application in host A may crash. The TCP module in host B, unaware of the crash, may then send a segment.
+#### TCP STATE TRANSITION DIAGRAM
+![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/state_transition.JPG  "State Transition Diagram")   
+
+#### TCP Congestion Control
+The **advertised window** does not prevent the buffers in the **intermediate routers** from **overflowing**, hence the **congestion situation**.
+
+-Because the **IP layer does not** **implement a mechanism to control congestion**, it is up to the **higher layer to detect congestion** and take proper actions.  
+
+The objective of conjestion flow have each sender transmit just the right amount of data to keep the network resources **utilized but not overloaded**.
+
+Solution: the TCP protocol defines another window, called the **congestion window**, which specifies the maximum number of bytes that a TCP sender is allowed to **transmit with the assumption that congestion will not be triggered with the given amount of data**.
+
+
 **TCP连接建立**：三报文握手：  
 ![GitHub set up](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/Chapter8/TCP_connection_built  "Connection") 
 
