@@ -47,7 +47,7 @@ For instance, in the OSI model:
 -   **real-time** or **speed** tasks intead of *reliability* tasks.
 -   Examples: (except TCP, every protocol we know is connectionless services) UDP, IP, HTTP, HTTPS, SMTP, DNS, DHCP
 
-#### Service Features:
+####  Service Features:
 - Arbitrary Message Size or Structure: Some protocols or service models allow flexibility in the size or structure of messages transmitted. They don't impose strict limits on the length or format of data being sent.  
 - Sequencing: Refers to the ordering of data packets or messages. Some protocols ensure that transmitted data is received and processed in the correct order at the receiver's end.
 - Reliability: Reliability ensures that data transmission is accurate and complete. Reliable protocols employ error detection, retransmission of lost packets, and acknowledgment mechanisms to ensure successful delivery.  
