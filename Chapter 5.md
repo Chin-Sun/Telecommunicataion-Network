@@ -1,7 +1,6 @@
 # Peer-to-Peer Protocol And Data link Layer
 ## Points I don't understand
 - Data Transfer: this state information provides a context that the layer-n peer processes use to track the exchange of PDUs. The context’s value-added services: in-order delivery of SDUs.
-- 
 ### 1. PDU
 A Peer-to-Peer Model: involves the interaction of two or more processes or entities through the exchange of Protocol Data Units(PDU).  
 ![img](https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/PDU%26SDU.PNG "PDU")
@@ -55,5 +54,18 @@ For instance, in the OSI model:
 - Pacing: Pacing involves controlling the rate at which data is transmitted to match the speed at which the receiver can process it, preventing overwhelm or congestion.
 - Multiplexing: Multiplexing allows multiple data streams to be transmitted over a single communication channel simultaneously. It enables the sharing of network resources efficiently.
 ### 3. End to End versus Hop by Hop
-- **End to End:** Communication spans across **the entire network**, potentially involving multiple intermediate nodes or segments, enabling communication between devices situated at different parts of the network.
-- **Hop by Hop:** Communication happens directly between devices within a single network segment 
+- **End to End:** Communication spans across **the entire network(OSI; TCP/IP model)**, potentially involving multiple intermediate nodes or segments, enabling communication between devices situated at different parts of the network.
+- **Hop by Hop:** Communication happens directly between devices within a single network segment
+-  a "hop" refers to the movement of data from one network device or node to another. Each network device (like routers, switches, or gateways) through which data passes between source and destination constitutes a hop.
+#### TCP vs. UDP
+- UDP vs. TCP:
+- TCP is a connection-oriented protocol that guarantees reliable, ordered, and error-checked delivery of data. It includes mechanisms for sequencing, acknowledgment, and retransmission of lost packets, ensuring data integrity and ordering.
+- UDP, on the other hand, is a connectionless protocol that does not provide the same level of reliability or sequencing. UDP packets are typically sent without establishing a connection and do not guarantee delivery, ordering, or error correction.
+- UDP does not maintain a connection state or provide mechanisms for packet sequencing, acknowledgment, or flow control.
+- Additionally, UDP does not perform congestion control. If a congested network leads to packet loss or delay, UDP does not attempt to alleviate congestion or retransmit lost packets.
+#### End to End system initiating error recovery 
+- Acknowledgment and Retransmission (ARQ): If the receiving end detects missing or corrupted data (using sequence numbers or checksums), it sends negative acknowledgments (NAKs) or does not send positive acknowledgments (ACKs). This prompts the sender to retransmit the missing or damaged data.
+- Timeout Mechanisms: End systems set timeouts for receiving acknowledgments.
+- Selective Repeat or Go-Back-N: These are techniques used in protocols like TCP to recover lost or corrupted data.
+- Error Detection and Correction Codes: End systems can use error detection and correction codes (such as CRC or checksums) to identify and rectify errors in received data.
+- Higher-Layer Protocols
