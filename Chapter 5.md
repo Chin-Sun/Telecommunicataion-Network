@@ -1,7 +1,7 @@
 # Peer-to-Peer Protocol And Data link Layer
 
 A Peer-to-Peer Model: involves the interaction of two or more processes or entities through the exchange of Protocol Data Units(PDU).  
-
+https://github.com/Chin-Sun/Telecommunicataion-Network/blob/main/img/PDU%26SDU.PNG
 
 State information typically includes various details and parameters associated with the communication session or connection setup. Some examples of state information might include:  
 - Connection Status: Indicates whether the connection is open, closed, or in a particular state (e.g., established, terminated, or waiting).  
