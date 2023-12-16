@@ -1,5 +1,5 @@
 # Peer-to-Peer Protocol And Data link Layer
-## Points I don't understand
+## Points I didn't understand----Now I get it
 - Data Transfer: this state information provides a context that the layer-n peer processes use to track the exchange of PDUs. The context’s value-added services: in-order delivery of SDUs.
 - control information, fields, time-out mechacinasm。 How is it set up? Where is the location?
 - what is HDLC? when do we need to use it?
