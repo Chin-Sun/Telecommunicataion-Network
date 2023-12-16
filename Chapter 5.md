@@ -102,4 +102,54 @@ For instance, in the OSI model:
 - The number of bits that can be allotted within a header per sequence number is limited to some number, say, m, which then allows us to represent at most 2^m possible sequence numbers, so the sequence numbers must be counted using modulo 2^m.
 -  the window size Ws is 2^m - 1 or less and assume that the current sent window is 0 up to Ws - 1.
 -  The reason that we use Ws=2^m-1: the receiver will not receive frame Ws until the acknowledgment for frame 0 has been received at the transmitter.
--  
+### Selective Repeat ARQ
+**The Selective Rpeat ARQ**unique features:  
+- the receive window is made larger than one frame so that the receiver can accept frames that are out of order but error free.  
+- the retransmission mechanism is modified that only individual frames are retransmitted.  
+- Selective Repeat ARQ = 出现error(帧丢失),该帧重传，通过设置发送NCK=该帧的S；后续收到的帧都存起来，R+1， 但还是发送ACK=error帧的S；直到丢失的帧重新接收到，ACK=最后的S的数值+1=R
+- Go-Back-N ARQ = 出现error(帧丢失) ，发送NAK=该帧的S/此时的R；后续的帧全部不接受，R保持原值(R不加1)；等到重现传送从丢失帧开始的后续帧Ws-1个
+  
+- without delay-bandwidth
+- nf is very large-->n0==0
+- Pf = error probabality
+**Delay Bandwidth**
+- for Stop and Wait: L = 2(t_prop+t_proc)R
+- for GO Back N: L= Ws-1
+- for Selective Repeat ARQ : None delay-bandwidth
+
+### 3. Data Link Controlｓ？？？？　
+#### Framing ??这一块重看---总结一下
+- what is framing???? why do we need it?
+- why do we need to delineate characters? How can we use these characters?
+- What is GFP?
+- FCS (Frame Check Sequence)
+#### the difference between PPP and IP
+PPP and IP work together in establishing and maintaining point-to-point communication links, with PPP handling the lower-level establishment and encapsulation of various network-layer protocols (including IP), while IP manages the routing and delivery of packets between devices across networks.
+#### Point-to Point link, End-to-end link, Hop-by-Hop link
+- Point-to-Point link: A point-to-point link is a type of connection established between two specific nodes or devices, providing a direct communication path between them.
+- End-to-End link: An end-to-end link refers to the communication path between the source and destination nodes, which might involve multiple intermediate nodes or networks in between.
+- Hop-by-Hop Link refers to the transmission method where data passes through a series of intermediate nodes, traveling from one node to another until it reaches the final destination
+
+### HDLC Data Link Control
+#### HDLC vs. PPP
+- Versatility: PPP is more versatile and can accommodate various network layer protocols, while HDLC is more specific and often used in specific WAN and telecommunication settings.  
+- Error Detection and Authentication: PPP offers better error detection and authentication mechanisms compared to HDLC, making it more secure and suitable for authentication-based network connections.  
+- Standardization: HDLC is a standard protocol defined by ISO, whereas PPP has evolved with more features like authentication and support for multiple network layer protocols.
+#### Typical Frame Exchanges
+Use Unumberd Frame to build a connection first. Then Use a unique mode. Finally, use an unnumbered frame to terminate the connection. 
+**Normal Response Mode**: include Information Frame, Superviser Frame  
+- unbalanced+balanced
+- Primary A---> Secondary B, C,.....  
+**Asynchronous Balanced Mode**: Asynchronous Balanced Mode  
+- balanced
+- Primary A ---> Secondary B only one
+
+### Conception Analysis
+#### The difference between connectionless unacknowledged service and connectionless acknowledged service
+**Connectionless Unacknowledged Services**
+- UDP
+- IP
+- HTTP
+**Connectionless Acknowledged Services:**
+- Address Resolution Protocol (ARP)
+- Internet Control Message Protocol (ICMP)
