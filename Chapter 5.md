@@ -108,7 +108,7 @@ For instance, in the OSI model:
 - the retransmission mechanism is modified that only individual frames are retransmitted.  
 - Selective Repeat ARQ = 出现error(帧丢失),该帧重传，通过设置发送NCK=该帧的S；后续收到的帧都存起来，R+1， 但还是发送ACK=error帧的S；直到丢失的帧重新接收到，ACK=最后的S的数值+1=R
 - Go-Back-N ARQ = 出现error(帧丢失) ，发送NAK=该帧的S/此时的R；后续的帧全部不接受，R保持原值(R不加1)；等到重现传送从丢失帧开始的后续帧Ws-1个
-  
+----------------------------------------------------------------------------------------------------------------------------------------------
 - without delay-bandwidth
 - nf is very large-->n0==0
 - Pf = error probabality
