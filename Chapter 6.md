@@ -6,6 +6,8 @@ Medium Access Control(MAC) Techniques:
   - Random Access
 ### Points I don't understand:
 - What is Transfer Delay?????? how to calculate?
+- Token Ring Type? What are the principles of three types? How to unerstand????
+- Token Passing Ring calcualtion??????????? 无法把计算公式与原理结合理解。。。。。
 ### Switched Networkds
 - Point-to-Point Connections: Switched networks create individual, dedicated connections between two communicating devices (nodes) for the duration of a communication session.
 - Dedicated Communication Paths: When two nodes need to communicate, the network establishes a dedicated path between them, ensuring that other devices do not share this specific path during that time.
@@ -14,7 +16,7 @@ Medium Access Control(MAC) Techniques:
   - Circuit Switching: Establishes a dedicated communication path between nodes for the duration of the communication session. Examples include traditional telephone networks.
   - Packet Switching: Divides data into packets that are independently routed across the network, allowing shared use of network resources. Examples include networks based on protocols like TCP/IP.
 - Scalability and Efficiency: Switched networks offer scalability, enabling multiple simultaneous connections without congestion, thereby enhancing network efficiency.
-- Example: Ethernet networks utilizing switches to create dedicated communication paths between devices within a LAN (Local Area Network) are an example of switched networks. When devices communicate within an Ethernet LAN, the switch forwards data directly to the destination device without sharing the data across the entire network, enhancing efficiency and reducing collision and congestion.
+- Example: Ethernet networks utilizing switches to create dedicated communication paths between devices within a **LAN (Local Area Network)** are an example of switched networks. When devices communicate within an **Ethernet LAN**, the switch forwards data directly to the destination device without sharing the data across the entire network, enhancing efficiency and reducing collision and congestion.
 
 ### Approaches of channel sharing techniques :
 Ring Network has features of both approaches.  
@@ -56,7 +58,7 @@ this figure represents the relationship between the load on a communication chan
   
 - For a given value of S, say, S = 0.05, there are two associated values of G. This is in agreement with our intuition that the system has two modes: one associating a small value of G with S, that is, S ≈ G, and another associating a large value of G with S, that is, G  S when many stations are backlogged.
 - the graph also shows that values of S beyond 1/2e are not attainable.
--  Note that the maximum value of S occurs at G = 1/2, which corresponds to a total arrival rate of exactly one frame per vulnerable period. This makes sense since two or more arrivals in a vulnerable period result in a collision.
+-  Note that the maximum value of S=1/(2e) occurs at G = 1/2, which corresponds to a total arrival rate of exactly one frame per vulnerable period. This makes sense since two or more arrivals in a vulnerable period result in a collision.
 ![image](https://github.com/Chin-Sun/Telecommunicataion-Network/img/Alpha.JPG "Throughput S versus load G" )
 
 ### Slotted Alpha
@@ -79,4 +81,18 @@ the channel.
   
 - **1-persistent CSMA-CD** can be analyzed by assuming that time is divided into **mini slots** of length **2t_prop seconds** to ensure that stations can always detect a collision. Each **contention interval** takes **2t_prop seconds**.
 
+## Scheduling
+### Reservation system
+- calculation: 写下来公式+对比
+### Polling system
+- calculation
+### Token-Passing Rings
+??
 
+## CSMA-CA
+- **The point coordination function (PCF)** is an optional capability that can be used to **provide connection-oriented**, **contention-free services** by enabling polled stations to **transmit without contending** for the channel.
+
+## LAN Bridges & Ethernet Switches
+### Transparent Bridges(Ethernet)
+### Source Route Bridges(Token Ring)
+Unlike transparent bridges that place the implementation complexity in bridges, source routing bridges put the burden more on the end stations. The main idea of source routing is that each station should determine the route to the destination when it wants to send a frame and therefore include the route information in the header of the frame. Thus the problem boils down to finding good routes efficiently.  
