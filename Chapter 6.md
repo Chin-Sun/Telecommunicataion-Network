@@ -67,4 +67,6 @@ this figure represents the relationship between the load on a communication chan
 - Note that the maximum value of S=1/e occurs at G = 1
 
 ### Carrier Sense Multiple Access
+The CSMA schemes improve over the ALOHA schemes by reducing the vulnerable period from one- or two-frame transmission times to a single propagation delay t_prop.
+
 
