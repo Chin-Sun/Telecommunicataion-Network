@@ -130,7 +130,7 @@ PPP and IP work together in establishing and maintaining point-to-point communic
 - End-to-End link: An end-to-end link refers to the communication path between the source and destination nodes, which might involve multiple intermediate nodes or networks in between.
 - Hop-by-Hop Link refers to the transmission method where data passes through a series of intermediate nodes, traveling from one node to another until it reaches the final destination
 
-### HDLC Data Link Control
+### HDLC Data Link Control （Data Link Layer数据链路层）
 #### HDLC vs. PPP
 - Versatility: PPP is more versatile and can accommodate various network layer protocols, while HDLC is more specific and often used in specific WAN and telecommunication settings.  
 - Error Detection and Authentication: PPP offers better error detection and authentication mechanisms compared to HDLC, making it more secure and suitable for authentication-based network connections.  
