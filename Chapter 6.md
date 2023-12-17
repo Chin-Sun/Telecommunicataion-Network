@@ -69,4 +69,14 @@ this figure represents the relationship between the load on a communication chan
 ### Carrier Sense Multiple Access
 The CSMA schemes improve over the ALOHA schemes by reducing the vulnerable period from one- or two-frame transmission times to a single propagation delay t_prop.
 
+## CSMA-CD(Carrier Sense Multile Access / Collision Detection)
+- When the channel becomes idle, **stations contend for the channel** by **transmitting and listening to the channel** to see if they have successfully captured
+the channel.
+- A station with a frame **first senses** the channel and **transmits if the channel is idle**. 
+- If the channel is **busy**, the station **uses one of the possible strategies from CSMA**; that is(Non-persistent: ), the station **persist and attempt transmission** with probability **p**; Or with the probability, the station can use back-off immediately.
+- If a **collision is detected during transmission**, then **a short jamming signal is transmitted** to ensure that **other stations know that collision has occurred** **before aborting the transmission**. 
+- The station stop transmission. It uses the backoff algorithm to schedule a future resensing time and then retransmits.
+  
+- **1-persistent CSMA-CD** can be analyzed by assuming that time is divided into **mini slots** of length **2t_prop seconds** to ensure that stations can always detect a collision. Each **contention interval** takes **2t_prop seconds**.
+
 
